@@ -1,0 +1,9 @@
+{
+  "nombre": "Aventura clásica",
+  "preset": "heroes-mazmorra",
+  "ambientacion": "classic 16-bit fantasy rpg, colorful and adventurous",
+  "negativo": "",
+  "parecido_boceto": 0.5,
+  "notas": "Ejemplo: tono clásico y colorido, como el pack de referencia.",
+  "tipos": []
+}

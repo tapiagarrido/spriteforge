@@ -1,0 +1,4 @@
+# Elegir versiones de dependencias compatibles con `rust-version` (Cargo.toml)
+# en lugar de fallar con las más nuevas.
+[resolver]
+incompatible-rust-versions = "fallback"

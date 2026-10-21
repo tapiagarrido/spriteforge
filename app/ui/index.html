@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Forja de Sprites</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="barra">
+    <h1>Forja de Sprites</h1>
+    <div class="estado">
+      <span id="estado-gpu" class="pastilla">Conectando…</span>
+      <span id="estado-modelos" class="pastilla"></span>
+      <button id="btn-liberar" class="sec" title="Libera la memoria de vídeo ahora">Liberar VRAM</button>
+      <button id="btn-ajustes" class="sec" aria-expanded="false" aria-controls="ajustes">Ajustes</button>
+    </div>
+  </header>
+
+  <nav class="talleres" role="tablist" aria-label="Talleres">
+    <button role="tab" id="tab-taller-personajes" aria-selected="true" aria-controls="taller-personajes">Personajes</button>
+    <button role="tab" id="tab-taller-mapas" aria-selected="false" aria-controls="taller-mapas">Mapas</button>
+  </nav>
+
+  <section id="ajustes" class="ajustes" aria-labelledby="t-ajustes" hidden>
+    <div class="ajustes-cabecera">
+      <h2 id="t-ajustes">Ajustes</h2>
+      <p class="ayuda">Lo que se prepara una vez y se reutiliza: proyectos, plantillas de personaje y estilos.
+        En el taller solo eliges.</p>
+    </div>
+    <div class="pestanas" role="tablist" aria-label="Secciones de ajustes">
+      <button role="tab" id="tab-proyectos" aria-controls="pn-proyectos" aria-selected="true">Proyectos</button>
+      <button role="tab" id="tab-plantillas" aria-controls="pn-plantillas" aria-selected="false">Plantillas de personaje</button>
+      <button role="tab" id="tab-estilos" aria-controls="pn-estilos" aria-selected="false">Estilos de píxel</button>
+      <button role="tab" id="tab-gemini" aria-controls="pn-gemini" aria-selected="false">Gemini</button>
+      <button role="tab" id="tab-qwen" aria-controls="pn-qwen" aria-selected="false">Qwen</button>
+    </div>
+
+    <!-- Proyectos -->
+    <div id="pn-proyectos" class="panel pestana" role="tabpanel" aria-labelledby="tab-proyectos">
+      <div class="fila">
+        <label for="cfg-proyecto">Proyecto a editar
+          <select id="cfg-proyecto"></select>
+        </label>
+        <button type="button" id="btn-nuevo-proyecto" class="sec">Nuevo proyecto</button>
+      </div>
+      <p class="ayuda">Todo lo de aquí se aplica a cada personaje del juego. Escribe en español: se traduce al generar.</p>
+      <div class="dos-columnas">
+        <div>
+          <label for="pr-nombre">Nombre del proyecto</label>
+          <input id="pr-nombre" maxlength="80" placeholder="Mazmorra oscura">
+          <label for="pr-preset">Estilo de píxel del juego</label>
+          <select id="pr-preset"></select>
+          <label for="pr-ambientacion">Ambientación del mundo (la ve la IA)</label>
+          <textarea id="pr-ambientacion" rows="4" maxlength="1500"
+            placeholder="Un reino maldito por runas antiguas. Ruinas cubiertas de niebla, colores apagados y fríos, luz de las runas en tonos verdes, aspecto sombrío y amenazante."></textarea>
+          <label for="pr-negativo">Evitar en todo el juego</label>
+          <textarea id="pr-negativo" rows="2" maxlength="600"
+            placeholder="colores alegres, aspecto tierno, estilo de dibujos animados"></textarea>
+          <div class="fila">
+            <label for="pr-perspectiva" class="larga">Forma del juego (mapas)
+              <select id="pr-perspectiva">
+                <option value="cenital">Cenital: todas direcciones (Zelda, Pokémon)</option>
+                <option value="lateral">Lateral: plataformas (Mario)</option>
+              </select>
+            </label>
+            <label for="pr-baldosa" class="corta">Baldosa del mapa
+              <select id="pr-baldosa"><option value="16">16 px</option><option value="32" selected>32 px</option><option value="48">48 px</option></select>
+            </label>
+          </div>
+          <label for="pr-parecido">Parecido al boceto por defecto <output id="o-pr-parecido">equilibrado</output>
+            <input id="pr-parecido" type="range" min="0" max="1" step="0.05" value="0.5">
+          </label>
+          <label for="pr-notas">Historia y notas del mundo (no se envía a la IA)</label>
+          <textarea id="pr-notas" rows="3" maxlength="6000"
+            placeholder="Facciones, lugares, ideas para personajes…"></textarea>
+        </div>
+        <div>
+          <h3>Tipos propios de este proyecto</h3>
+          <p class="ayuda">Se suman a las <button type="button" class="enlace ir-plantillas">plantillas de personaje</button>
+            comunes a todos los proyectos. Si uno se llama igual que una plantilla común, en este proyecto manda este.</p>
+          <div id="pr-tipos" class="tipos"></div>
+          <button type="button" id="btn-anadir-tipo" class="sec">Añadir tipo propio</button>
+        </div>
+      </div>
+      <div class="fila acciones-proyecto">
+        <button type="button" id="btn-guardar-proyecto" class="principal">Guardar proyecto</button>
+      </div>
+      <p id="pr-mensaje" class="ayuda" role="status" aria-live="polite"></p>
+    </div>
+
+    <!-- Plantillas -->
+    <div id="pn-plantillas" class="panel pestana" role="tabpanel" aria-labelledby="tab-plantillas" hidden>
+      <p class="ayuda">Plantillas de tipo de personaje disponibles en todos los proyectos. Al generar eliges una y
+        su texto se añade al prompt: con una plantilla, la descripción del personaje es opcional.</p>
+      <div id="pl-tipos" class="tipos tipos-anchos"></div>
+      <div class="fila acciones-proyecto">
+        <button type="button" id="btn-anadir-plantilla" class="sec">Añadir plantilla</button>
+        <button type="button" id="btn-guardar-plantillas" class="principal">Guardar plantillas</button>
+      </div>
+      <p id="pl-mensaje" class="ayuda" role="status" aria-live="polite"></p>
+    </div>
+
+    <!-- Estilos -->
+    <div id="pn-estilos" class="panel pestana" role="tabpanel" aria-labelledby="tab-estilos" hidden>
+      <p class="ayuda">Un estilo fija tamaño, paleta y contorno a partir de 2-5 sprites de ejemplo. Elige uno para
+        verlo o editarlo.</p>
+      <div id="es-lista" class="grid es-lista"></div>
+      <div id="es-editor" class="es-editor" hidden>
+        <h3 id="es-titulo"></h3>
+        <img id="es-vista" class="preset-vista" alt="Ejemplos y paleta del estilo">
+        <p id="es-datos" class="ayuda"></p>
+        <label for="es-nombre">Nombre</label>
+        <input id="es-nombre" maxlength="60">
+        <label for="es-prompt">Descripción del estilo (la ve la IA, mejor en inglés)</label>
+        <textarea id="es-prompt" rows="2" maxlength="600"></textarea>
+        <label for="es-negativo">Evitar en este estilo</label>
+        <textarea id="es-negativo" rows="3" maxlength="600"></textarea>
+        <div class="fila acciones-proyecto">
+          <button type="button" id="btn-guardar-estilo" class="principal">Guardar estilo</button>
+          <button type="button" id="btn-borrar-estilo" class="sec">Borrar estilo</button>
+        </div>
+      </div>
+      <details id="es-nuevo" class="direccion">
+        <summary>Crear un estilo nuevo</summary>
+        <p class="ayuda">Sube de 2 a 5 sprites del estilo que quieres (PNG con fondo transparente, del mismo tamaño,
+          p. ej. de un pack que tengas). Se miden su tamaño, paleta, contorno y sombreado.</p>
+        <label for="en-nombre">Nombre</label>
+        <input id="en-nombre" maxlength="60" placeholder="Héroes 32 px">
+        <label class="boton-archivo sec">Elegir sprites de ejemplo…
+          <input id="en-ejemplos" type="file" accept="image/png,image/gif,image/webp" multiple>
+        </label>
+        <div id="en-miniaturas" class="miniaturas"></div>
+        <label for="en-estilo">Descripción del estilo (opcional)</label>
+        <input id="en-estilo" maxlength="400"
+          placeholder="pixel art, game sprite, full body, clean pixel shading, dark outline, limited palette">
+        <label for="en-paleta">Colores de la paleta (opcional: vacío = todos los de los ejemplos)</label>
+        <input id="en-paleta" type="number" min="4" max="256" placeholder="todos">
+        <button type="button" id="btn-crear-estilo" class="principal">Crear estilo</button>
+        <p id="en-mensaje" class="ayuda" role="status" aria-live="polite"></p>
+      </details>
+      <p id="es-mensaje" class="ayuda" role="status" aria-live="polite"></p>
+    </div>
+
+    <!-- Gemini -->
+    <div id="pn-gemini" class="panel pestana" role="tabpanel" aria-labelledby="tab-gemini" hidden>
+      <h3>Gemini (opcional, externo)</h3>
+      <p class="ayuda">Permite generar con la API de Google en lugar de tu GPU. Se envían a Google el boceto,
+        la referencia de estilo y las descripciones, y cada imagen tiene coste según tu cuenta.
+        El recorte y el pixelizado con la paleta del proyecto siguen siendo locales.</p>
+      <p id="gemini-estado" class="ayuda"></p>
+      <label for="gemini-clave">Clave de la API de Gemini</label>
+      <input id="gemini-clave" type="password" autocomplete="off" spellcheck="false"
+        placeholder="Pega aquí tu clave (se guarda solo en este equipo)">
+      <p id="error-clave" class="error" hidden></p>
+      <div class="fila">
+        <button type="button" id="btn-guardar-clave" class="sec">Guardar clave</button>
+        <button type="button" id="btn-probar-gemini" class="sec">Probar conexión</button>
+        <button type="button" id="btn-borrar-clave" class="sec">Borrar clave</button>
+      </div>
+      <label for="gemini-modelo">Modelo de imagen</label>
+      <select id="gemini-modelo"><option value="">(prueba la conexión para ver los modelos)</option></select>
+      <p id="ajustes-mensaje" class="ayuda" role="status" aria-live="polite"></p>
+    </div>
+
+    <!-- Qwen -->
+    <div id="pn-qwen" class="panel pestana" role="tabpanel" aria-labelledby="tab-qwen" hidden>
+      <h3>Qwen-Image (opcional, servidor propio)</h3>
+      <p class="ayuda">Permite generar con Qwen-Image en lugar de la IA local: más potente, gratis y sin salir de
+        tu red. Necesita el servidor de la carpeta <code>qwen-image</code> (arráncalo con
+        <code>bash qwen-image/switch.sh</code>). Tarda un minuto o más por imagen y las variantes se generan una
+        tras otra. El recorte y el pixelizado con la paleta del proyecto siguen siendo locales.</p>
+      <p id="qwen-estado" class="ayuda"></p>
+      <label for="qwen-url">Dirección del servidor</label>
+      <input id="qwen-url" type="url" autocomplete="off" spellcheck="false" placeholder="http://127.0.0.1:1234">
+      <p id="error-qwen" class="error" hidden></p>
+      <div class="fila">
+        <button type="button" id="btn-guardar-qwen" class="sec">Guardar dirección</button>
+        <button type="button" id="btn-probar-qwen" class="sec">Probar conexión</button>
+      </div>
+      <p id="qwen-mensaje" class="ayuda" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Taller de mapas: solo el terreno (suelo, plataformas, cielo); la forma la fija el proyecto. -->
+  <section id="taller-mapas" class="taller-mapas" aria-labelledby="t-mapas" hidden>
+    <div class="columnas columnas-mapas">
+      <section class="panel" aria-labelledby="t-mapas">
+        <h2 id="t-mapas">Mapa del proyecto</h2>
+        <label for="mp-proyecto">Proyecto (juego)</label>
+        <select id="mp-proyecto"></select>
+        <p id="mp-forma" class="ayuda"></p>
+        <p class="ayuda enlaces-ajustes"><button type="button" class="enlace ir-proyectos">Cambiar la vista o la baldosa del proyecto</button></p>
+
+        <label for="mp-piso">Piso (ambiente)</label>
+        <select id="mp-piso"></select>
+        <div class="fila piso-acciones">
+          <input id="mp-piso-nombre" maxlength="40" placeholder="Nombre para guardar estos suelos como piso"
+            aria-label="Nombre del piso">
+          <button type="button" id="btn-guardar-piso" class="sec">Guardar piso</button>
+          <button type="button" id="btn-borrar-piso" class="sec">Borrar piso</button>
+        </div>
+        <p id="mp-piso-msg" class="ayuda" role="status" aria-live="polite"></p>
+
+        <div id="mp-cenital">
+          <p class="ayuda">Vista cenital (todas direcciones): suelos que se repiten sin costuras y bordes entre dos
+            suelos, listos para que Tiled los pinte solos.</p>
+          <label for="mp-a">Suelo principal</label>
+          <input id="mp-a" maxlength="200" placeholder="pasto oscuro">
+          <label for="mp-b">Segundo suelo (para las transiciones)</label>
+          <input id="mp-b" maxlength="200" placeholder="tierra">
+          <p class="ayuda">En español o en inglés. Solo terreno: sin árboles, rocas ni personajes. Los colores salen de
+          la paleta del estilo del proyecto, así que combinan con sus personajes.</p>
+          <fieldset class="checks">
+            <legend>Piezas</legend>
+            <label class="check"><input type="checkbox" name="mp-pieza" value="suelos" checked> Suelos sin costuras</label>
+            <label class="check"><input type="checkbox" name="mp-pieza" value="transiciones" checked> Transiciones entre suelos</label>
+          </fieldset>
+        </div>
+
+        <div id="mp-lateral" hidden>
+          <p class="ayuda">Vista lateral (plataformas): bloques con superficie y relleno, y un fondo en capas
+            (cielo, montañas lejanas, colinas cercanas) que se repite en horizontal.</p>
+          <div class="fila">
+            <label for="mp-sup">Superficie<input id="mp-sup" maxlength="200" placeholder="pasto"></label>
+            <label for="mp-rel">Relleno<input id="mp-rel" maxlength="200" placeholder="tierra con piedras"></label>
+          </div>
+          <label for="mp-cielo">Cielo (opcional)</label>
+          <input id="mp-cielo" maxlength="200" placeholder="cielo nocturno con estrellas">
+          <p class="ayuda">En español o en inglés. Solo terreno: sin árboles, rocas ni personajes. Los colores salen de
+          la paleta del estilo del proyecto, así que combinan con sus personajes.</p>
+          <fieldset class="checks">
+            <legend>Piezas</legend>
+            <label class="check"><input type="checkbox" name="mp-pieza" value="plataformas" checked> Bloques de plataforma</label>
+            <label class="check"><input type="checkbox" name="mp-pieza" value="fondo" checked> Fondo en capas</label>
+          </fieldset>
+        </div>
+
+        <details id="mp-grande" class="plegable" open>
+          <summary>Mapa grande de mazmorra (salas, pasillos, muros y decorados)</summary>
+          <p class="ayuda">Un mapa entero de 8 ambientes distintos: salas unidas por pasillos, muros con borde y sombra, moho,
+            charcos y, si quieres, decorados (antorchas, objetos, huesos, escaleras de entrada y salida) colocados sin cerrar
+            los pasos. Usa las texturas trabajadas por Qwen del ambiente y la <strong>paleta del proyecto</strong>. Sale
+            como imagen y como mapa de Tiled (<code>.tmx</code>) con capa de colisiones. Con las texturas ya hechas tarda
+            unos segundos.</p>
+          <label for="mp-grande-ambiente">Ambiente</label>
+          <select id="mp-grande-ambiente"></select>
+          <p id="mp-grande-estado" class="ayuda" role="status" aria-live="polite"></p>
+          <div class="fila">
+            <label>Tamaño
+              <select id="mp-grande-tamano">
+                <option value="48x36">Pequeño (48×36 baldosas)</option>
+                <option value="64x48" selected>Mediano (64×48)</option>
+                <option value="96x64">Grande (96×64)</option>
+                <option value="128x96">Enorme (128×96)</option>
+              </select>
+            </label>
+            <label>Salas
+              <select id="mp-grande-salas">
+                <option value="6">Pocas (6)</option>
+                <option value="10" selected>Normal (10)</option>
+                <option value="16">Muchas (16)</option>
+                <option value="22">Laberinto (22)</option>
+              </select>
+            </label>
+          </div>
+          <label class="check"><input type="checkbox" id="mp-grande-decorar" checked> Con decorados</label>
+          <div class="fila">
+            <button type="button" id="btn-generar-grande" class="principal">Generar mapa grande</button>
+            <button type="button" id="btn-rehacer-grande" class="sec"
+              title="Vuelve a pedir a Qwen las texturas del ambiente (suelo, muro, cobertura y líquido). Necesita el servidor Qwen.">Rehacer texturas (Qwen)</button>
+          </div>
+          <p class="ayuda">La semilla de abajo da otra distribución de salas. «Rehacer texturas» cambia el aspecto del suelo y el
+            muro del ambiente (unos 4 min; necesita el servidor Qwen, ver Ajustes › Qwen).</p>
+          <p id="mp-grande-error" class="error" hidden></p>
+          <p id="mp-grande-progreso" class="progreso" role="status" aria-live="polite"></p>
+        </details>
+
+        <details id="mp-sala" class="plegable">
+          <summary>Sala completa con Qwen-Image (catacumbas, cavernas, criptas…)</summary>
+          <p class="ayuda">En vez de baldosas que se repiten, Qwen dibuja una <strong>sala entera</strong> vista desde
+            arriba, con sus paredes, losas de piedra superpuestas, moho, charcos de agua y huesos colocados donde
+            toca, y se adapta a la <strong>paleta del proyecto</strong>. Se guarda como imagen y como mapa de Tiled
+            (.tmx) para añadirle colisiones y objetos. Necesita el servidor Qwen (Ajustes › Qwen).</p>
+          <label for="mp-sala-desc">Descripción de la sala</label>
+          <textarea id="mp-sala-desc" rows="3" maxlength="400"
+            placeholder="catacumbas grotescas: paredes de ladrillo oscuras, suelo de losas de piedra superpuestas y agrietadas, moho verde sobre las piedras y varios charcos redondos de agua verde turbia estancada con ondas y reflejos claros, algunos huesos"></textarea>
+          <p class="ayuda">Cuanto más concreto seas con cada elemento, mejor sale: «charcos redondos de agua verde
+            turbia» se ve como agua; «agua estancada» a secas suele quedar como fosos oscuros.</p>
+          <div class="fila">
+            <label>Tamaño
+              <select id="mp-sala-forma">
+                <option value="cuadrada" selected>Cuadrada (16×16 baldosas)</option>
+                <option value="ancha">Ancha (24×16)</option>
+                <option value="grande">Grande (24×24)</option>
+              </select>
+            </label>
+            <label>Detalle
+              <select id="mp-sala-detalle">
+                <option value="definido" selected>Definido (más contraste)</option>
+                <option value="apagado">Apagado (los personajes destacan)</option>
+              </select>
+            </label>
+            <label class="corta">Salas
+              <select id="mp-sala-variantes"><option>1</option><option selected>2</option><option>3</option><option>4</option></select>
+            </label>
+          </div>
+          <button type="button" id="btn-generar-sala" class="principal">Generar sala</button>
+          <p id="mp-sala-error" class="error" hidden></p>
+          <p id="mp-sala-progreso" class="progreso" role="status" aria-live="polite"></p>
+        </details>
+
+        <label for="mp-legibilidad">Legibilidad del suelo</label>
+        <select id="mp-legibilidad">
+          <option value="auto" selected>Automática (recomendada)</option>
+          <option value="0.3">Suelo con carácter (más textura y color)</option>
+          <option value="0.5">Equilibrada</option>
+          <option value="0.7">Suelo apagado</option>
+          <option value="1">Lo más apagado posible</option>
+        </select>
+        <p class="ayuda">El suelo se apaga (menos contraste y color, sin perder su tono) para que tus personajes
+          destaquen. En automático se prueban varios niveles con los personajes del proyecto y se elige el más
+          bajo que sirva.</p>
+        <div class="fila">
+          <label class="corta">Variantes por suelo
+            <select id="mp-variantes"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>6</option></select>
+          </label>
+          <label>Semilla <input id="mp-semilla" type="number" min="0" placeholder="aleatoria"></label>
+        </div>
+        <button type="button" id="btn-generar-mapa" class="principal">Generar mapa</button>
+        <p id="mp-error" class="error" hidden></p>
+        <p id="mp-progreso" class="progreso" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel" aria-labelledby="t-mapa-resultado">
+        <h2 id="t-mapa-resultado">Resultado</h2>
+        <div id="mp-vacio" class="vacio">El mapa aparecerá aquí.</div>
+        <div id="mp-resultado" hidden>
+          <div id="mp-escena-caja" hidden>
+            <h3>Con tus personajes encima</h3>
+            <p id="mp-legib-info" class="ayuda"></p>
+            <img id="mp-escena" class="mapa-img" alt="Mapa con los personajes del proyecto encima">
+          </div>
+          <h3 id="mp-prueba-titulo">Mapa de prueba</h3>
+          <p id="mp-prueba-ayuda" class="ayuda">Pintado automáticamente con las piezas generadas, para ver cómo encajan.</p>
+          <img id="mp-prueba" class="mapa-img" alt="Mapa de prueba">
+          <div id="mp-capas"></div>
+          <h3 id="mp-tileset-titulo">Tileset</h3>
+          <img id="mp-tileset" class="mapa-img" alt="Tileset generado">
+          <p id="mp-descargas" class="ayuda descargas"></p>
+        </div>
+        <details id="mp-galeria" class="galeria">
+          <summary>Mapas del proyecto <span id="mp-galeria-n"></span></summary>
+          <div id="mp-galeria-grid" class="grid galeria-grid"></div>
+        </details>
+      </section>
+    </div>
+  </section>
+
+  <main class="columnas" id="taller-personajes">
+    <!-- 1. Boceto -->
+    <section class="panel" aria-labelledby="t-boceto">
+      <h2 id="t-boceto">1. Boceto</h2>
+      <div class="herramientas" role="toolbar" aria-label="Herramientas de dibujo">
+        <button id="h-lapiz" class="herr activa" aria-pressed="true">Lápiz</button>
+        <button id="h-goma" class="herr" aria-pressed="false">Goma</button>
+        <label class="grosor">Grosor <input id="grosor" type="range" min="2" max="24" value="6"></label>
+        <button id="h-deshacer" class="sec" title="Ctrl+Z">Deshacer</button>
+        <button id="h-borrar" class="sec">Borrar</button>
+      </div>
+      <div class="lienzo-marco">
+        <canvas id="lienzo" width="576" height="1024" aria-label="Lienzo de dibujo del boceto"></canvas>
+      </div>
+      <label class="boton-archivo sec">
+        Importar imagen o foto…
+        <input id="importar" type="file" accept="image/*">
+      </label>
+      <p class="ayuda">Dibuja la silueta y los rasgos principales. Basta con trazos simples.</p>
+      <details id="boceto-ia" class="boceto-ia">
+        <summary>Cómo lo verá la IA</summary>
+        <label for="simplificar">Simplificar trazos <output id="o-simplificar">0.30</output>
+          <input id="simplificar" type="range" min="0" max="1" step="0.05" value="0.3">
+        </label>
+        <p class="ayuda escala"><span>fiel al dibujo</span><span>líneas únicas</span></p>
+        <label for="grosor-linea">Grosor de línea</label>
+        <select id="grosor-linea">
+          <option value="0.004">Fino (dibujos con mucho detalle)</option>
+          <option value="0.006" selected>Normal</option>
+          <option value="0.009">Grueso (trazos simples)</option>
+        </select>
+        <img id="boceto-limpio" class="boceto-limpio" alt="Boceto limpio que recibirá la IA">
+        <p id="boceto-msg" class="ayuda" role="status" aria-live="polite"></p>
+      </details>
+    </section>
+
+    <!-- 2. Especificaciones -->
+    <section class="panel" aria-labelledby="t-specs">
+      <h2 id="t-specs">2. Especificaciones</h2>
+      <form id="form" novalidate>
+        <label for="proyecto">Proyecto (juego)</label>
+        <select id="proyecto"></select>
+        <p class="ayuda enlaces-ajustes"><button type="button" class="enlace ir-proyectos">Crear o editar proyectos</button></p>
+
+        <label for="preset">Estilo de píxel (preset)</label>
+        <select id="preset" required></select>
+        <img id="preset-vista" class="preset-vista" alt="Ejemplos y paleta del preset">
+        <p class="ayuda enlaces-ajustes"><button type="button" class="enlace ir-estilos">Gestionar estilos</button></p>
+
+        <label for="tipo">Tipo de personaje</label>
+        <select id="tipo"></select>
+        <p class="ayuda enlaces-ajustes"><button type="button" class="enlace ir-plantillas">Editar plantillas</button></p>
+
+        <label for="prompt">Descripción del personaje</label>
+        <textarea id="prompt" rows="3"
+          placeholder="guerrero esqueleto con armadura oxidada y una espada rota, ojos verdes brillantes"></textarea>
+        <p class="ayuda" id="ayuda-prompt">En español o en inglés. Lo propio de este personaje: qué es,
+          un rasgo distintivo, materiales y un color destacado.</p>
+        <p id="error-prompt" class="error" hidden></p>
+        <button type="button" id="btn-ver-prompt" class="enlace">Ver qué recibe la IA</button>
+        <div id="prompt-final" class="prompt-final" hidden></div>
+
+        <label for="motor-ia">Motor de IA</label>
+        <select id="motor-ia">
+          <option value="local" selected>Local (tu GPU, gratis)</option>
+          <option value="gemini">Gemini (API externa, de pago)</option>
+          <option value="qwen">Qwen-Image (servidor propio, gratis)</option>
+        </select>
+        <p id="aviso-gemini" class="ayuda" hidden>Se enviarán el boceto y la descripción a Google.</p>
+        <p id="aviso-qwen" class="ayuda" hidden>Se genera en tu servidor Qwen-Image (un minuto o más por variante).
+          Si no responde, revisa Ajustes › Qwen.</p>
+
+        <div class="fila">
+          <label class="corta">Variantes
+            <select id="variantes"><option>1</option><option>2</option><option selected>4</option></select>
+          </label>
+          <label id="etiqueta-modo" class="larga">Modo
+            <select id="modo">
+              <option value="calidad" selected>Calidad (~11 s/imagen)</option>
+              <option value="rapido">Borrador (~2 s/imagen)</option>
+            </select>
+          </label>
+        </div>
+
+        <label for="parecido-boceto">Parecido al boceto <output id="o-boceto">equilibrado</output>
+          <input id="parecido-boceto" type="range" min="0" max="1" step="0.05" value="0.5">
+        </label>
+        <p class="ayuda escala"><span>libre</span><span>calcado</span></p>
+        <label for="fuerza-estilo">Imitar el estilo <output id="o-estilo">0.60</output>
+          <input id="fuerza-estilo" type="range" min="0" max="1" step="0.05" value="0.6">
+        </label>
+
+        <details>
+          <summary>Avanzado</summary>
+          <div class="fila">
+            <label>Semilla <input id="semilla" type="number" min="0" placeholder="aleatoria"></label>
+            <label>Alto figura (px) <input id="alto-figura" type="number" min="4" max="256" placeholder="preset"></label>
+            <label>Colores <input id="colores" type="number" min="2" max="32" placeholder="preset"></label>
+          </div>
+        </details>
+
+        <button id="btn-generar" type="submit" class="principal">Generar sprites</button>
+        <p id="progreso" class="progreso" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- 3. Resultados -->
+    <section class="panel" aria-labelledby="t-resultados">
+      <h2 id="t-resultados">3. Resultados</h2>
+      <details id="galeria" class="galeria" hidden>
+        <summary>Personajes del proyecto <span id="galeria-n"></span></summary>
+        <div id="galeria-grid" class="grid galeria-grid"></div>
+      </details>
+      <div id="vacio" class="vacio">Los sprites aparecerán aquí.</div>
+      <div id="variantes-grid" class="grid"></div>
+
+      <div id="editor" class="editor" hidden>
+        <h3>Retocar variante <span id="ed-num"></span></h3>
+        <div class="herramientas" role="toolbar" aria-label="Herramientas de píxel">
+          <button id="e-pintar" class="herr activa" aria-pressed="true">Pintar</button>
+          <button id="e-borrar" class="herr" aria-pressed="false">Borrar</button>
+          <button id="e-cuenta" class="herr" aria-pressed="false">Cuentagotas</button>
+          <button id="e-deshacer" class="sec">Deshacer</button>
+        </div>
+        <canvas id="ed-lienzo" aria-label="Editor de píxeles"></canvas>
+        <div id="ed-paleta" class="paleta" role="listbox" aria-label="Paleta del preset"></div>
+
+        <details>
+          <summary>Re-pixelizar (sin volver a usar la IA)</summary>
+          <div class="fila">
+            <label>Alto figura <input id="rp-alto" type="number" min="4" max="256"></label>
+            <label>Colores <input id="rp-colores" type="number" min="2" max="32"></label>
+            <label class="check"><input id="rp-contorno" type="checkbox" checked> Contorno</label>
+          </div>
+          <button id="btn-repixelizar" class="sec">Aplicar</button>
+        </details>
+
+        <div class="fila acciones">
+          <button id="btn-guardar" class="principal">Guardar sprite</button>
+          <button id="btn-descargar" class="sec">Descargar PNG</button>
+        </div>
+        <p id="ed-mensaje" class="ayuda" role="status" aria-live="polite"></p>
+
+        <details id="rediseno" class="animacion">
+          <summary>Rediseñar (la misma criatura con otro aspecto)</summary>
+          <p class="ayuda">Cada rediseño es una <strong>variante nueva</strong> de esta criatura: la original no se toca y
+            la nueva se puede retocar, girar y animar igual.</p>
+
+          <h4>Cambiar el color (sin IA, instantáneo)</h4>
+          <p class="ayuda">Toca los colores del sprite que quieres cambiar (ninguno elegido = todos) y elige el nuevo.
+            Así puedes teñir el pelaje de azul y dejar las runas verdes.</p>
+          <div id="rd-paleta" class="paleta" aria-label="Colores del sprite a cambiar"></div>
+          <div class="fila">
+            <label>Nuevo color <input type="color" id="rd-color" value="#3a6fd8"></label>
+            <label>Cómo
+              <select id="rd-modo">
+                <option value="tenir">Teñir (un solo tono, con sus sombras)</option>
+                <option value="girar">Girar (conserva la variedad de tonos)</option>
+              </select>
+            </label>
+          </div>
+          <label for="rd-int">Intensidad <output id="o-rd-int">1.00</output>
+            <input id="rd-int" type="range" min="0.5" max="2" step="0.05" value="1"></label>
+          <label for="rd-brillo">Brillo <output id="o-rd-brillo">1.00</output>
+            <input id="rd-brillo" type="range" min="0.6" max="1.6" step="0.05" value="1"></label>
+          <label class="check"><input type="checkbox" id="rd-ajustar" checked> Ajustar a la paleta del estilo</label>
+          <div class="rd-vistas">
+            <figure><img id="rd-antes" alt="Original"><figcaption>Original</figcaption></figure>
+            <figure><img id="rd-despues" alt="Con el cambio"><figcaption>Con el cambio</figcaption></figure>
+          </div>
+          <input id="rd-nombre" aria-label="Nombre de la variante" maxlength="40" placeholder="Nombre de la variante (opcional), p. ej. «Lobo azul»">
+          <button type="button" id="btn-rd-color" class="principal">Guardar como variante nueva</button>
+
+          <h4>Añadir elementos (Gemini o Qwen)</h4>
+          <input id="rd-cambio" aria-label="Cambio que pides a la IA" maxlength="300"
+            placeholder="p. ej. «ahora con un casco de hierro y un cuerno», «con una capa roja»">
+          <p class="ayuda">Gemini o Qwen redibujan esta variante con los cambios y se mantiene la criatura (usa el
+            «Motor de IA» elegido; con «Local» se usa Gemini). Gemini es de pago y envía la imagen a Google; Qwen
+            corre en tu servidor. La IA local no sirve para esto: conserva la criatura pero no aplica el cambio.</p>
+          <button type="button" id="btn-rd-ia" class="principal">Rediseñar con IA externa</button>
+          <p id="rd-msg" class="progreso" role="status" aria-live="polite"></p>
+        </details>
+
+        <details id="animacion" class="animacion" open>
+          <summary>Animación</summary>
+          <p class="ayuda">Genera una animación a la vez: el resultado es una secuencia de fotogramas que se
+            añade a la hoja de sprites del personaje. Si retocaste el sprite, pulsa antes «Guardar sprite».</p>
+
+          <h4>Generar todo para este sprite</h4>
+          <p class="ayuda">Con la variante elegida, dibuja sus vistas (de espaldas, de frente y de lado, con el
+            «Motor de IA» elegido en Especificaciones) y crea <strong>todas las animaciones de cada dirección</strong>
+            (reposo, caminar, ataques, daño y muerte). Las vistas que ya tengas se conservan. Se hace en un solo
+            trabajo, paso a paso; si un paso falla, sigue con los demás y te lo cuenta al final.</p>
+          <fieldset class="checks" id="todo-direcciones">
+            <legend>Direcciones</legend>
+            <label class="check"><input type="checkbox" value="abajo" checked> ↓ De frente</label>
+            <label class="check"><input type="checkbox" value="arriba" checked> ↑ De espaldas</label>
+            <label class="check"><input type="checkbox" value="derecha" checked> → ← De lado (la izquierda en espejo)</label>
+            <label class="check"><input type="checkbox" value="variante"> La variante tal cual (juegos laterales)</label>
+          </fieldset>
+          <label class="check"><input type="checkbox" id="todo-rehacer"> Rehacer también las vistas que ya existen</label>
+          <label class="check"><input type="checkbox" id="todo-poses"> Dibujar con la IA la pose de los ataques
+            (más lento: una imagen por ataque y dirección; con Gemini no está disponible)</label>
+          <button type="button" id="btn-todo" class="principal">Generar todo</button>
+          <p id="todo-progreso" class="progreso" role="status" aria-live="polite"></p>
+
+          <h4>Direcciones (para moverse por el mapa)</h4>
+          <p class="ayuda">Prepara la vista de frente, de espaldas y de lado (la izquierda es su espejo). Después
+            elige la dirección al animar. «Mi dibujo» usa lo que haya en el lienzo como boceto de esa vista.</p>
+          <input id="dir-texto" aria-label="Descripción de la criatura" maxlength="200" placeholder="Describe la criatura (ayuda a la IA local), p. ej. «oruga de piedra con cráneo y runas»">
+          <p class="ayuda">Mide: la IA local conserva la criatura si la describes, pero <strong>no gira</strong> bien
+            (de espaldas sigue mostrando la cara); <strong>Gemini</strong> y <strong>Qwen</strong> sí giran al personaje (Qwen: la espalda sale muy bien; el
+            perfil sale mejor si generas antes la espalda, y varía según la semilla: pulsa varias veces). Elige el motor en
+            «Motor de IA».</p>
+          <div id="dir-vistas" class="dir-vistas"></div>
+          <p id="dir-progreso" class="progreso" role="status" aria-live="polite"></p>
+
+          <div class="fila">
+            <label>Dirección
+              <select id="an-direccion">
+                <option value="">La variante (sin dirección)</option>
+                <option value="abajo">↓ Abajo (de frente)</option>
+                <option value="arriba">↑ Arriba (de espaldas)</option>
+                <option value="derecha">→ ← Lado (derecha e izquierda en espejo)</option>
+              </select>
+            </label>
+          </div>
+          <div class="fila">
+            <label>Animación
+              <select id="an-tipo">
+                <option value="reposo">Reposo</option>
+                <option value="caminar">Caminar</option>
+                <option value="ataque">Ataque (embestida)</option>
+                <option value="zarpazo">Ataque: zarpazo</option>
+                <option value="rugido">Rugido</option>
+                <option value="especial">Ataque especial (descríbelo)</option>
+                <option value="dano">Recibir daño</option>
+                <option value="muerte">Muerte</option>
+              </select>
+            </label>
+            <label id="an-mira-etiqueta">Mira hacia
+              <select id="an-mira">
+                <option value="">Detectar</option><option value="izquierda">Izquierda</option><option value="derecha">Derecha</option>
+              </select>
+            </label>
+          </div>
+
+          <fieldset id="an-golpe" class="checks" hidden>
+            <legend>Pose del golpe (con el motor Qwen puedes pedir cualquier pose por texto, o guiarla con tu dibujo)</legend>
+            <label class="check"><input type="radio" name="golpe" value="deformacion" checked> Automática (deformación)</label>
+            <label class="check"><input type="radio" name="golpe" value="ia"> Dibujada por la IA</label>
+            <label class="check"><input type="radio" name="golpe" value="dibujo"> Mi dibujo del lienzo</label>
+          </fieldset>
+          <input id="an-texto" aria-label="Descripción del ataque" placeholder="Describe el ataque, p. ej. «escupe ácido con la boca muy abierta»" hidden>
+          <div id="an-identidad" hidden>
+            <label for="cl-identidad">Parecido al personaje <output id="o-identidad">0.50</output>
+              <input id="cl-identidad" type="range" min="0.2" max="0.8" step="0.05" value="0.5">
+            </label>
+            <p class="ayuda escala"><span>pose más libre</span><span>más fiel al personaje</span></p>
+          </div>
+          <p id="error-an" class="error" hidden></p>
+          <button type="button" id="btn-animar" class="principal">Generar animación</button>
+          <p id="an-progreso" class="progreso" role="status" aria-live="polite"></p>
+
+          <div id="an-actual" class="an-actual" hidden>
+            <h4 id="an-titulo"></h4>
+            <canvas id="an-reproductor" class="reproductor" aria-label="Reproducción de la animación"></canvas>
+            <div id="an-tira" class="tira" aria-label="Fotogramas en orden"></div>
+            <div class="fila">
+              <button type="button" id="btn-otra-pose" class="sec" hidden>Otra pose de la IA</button>
+            </div>
+          </div>
+
+          <h4>Animaciones del personaje</h4>
+          <div id="an-lista" class="an-lista"><p class="ayuda">Todavía no hay animaciones.</p></div>
+          <p id="an-hoja" class="ayuda"></p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="preparar" class="preparar" aria-labelledby="t-preparar">
+    <h2 id="t-preparar">Preparar imagen</h2>
+    <p class="ayuda">Arrastra sobre la foto para recortar solo el dibujo (deja fuera la mesa, las anillas, el texto…).
+      A la derecha ves lo que pasará al lienzo.</p>
+    <div class="preparar-vistas">
+      <figure>
+        <canvas id="pp-original" aria-label="Foto original: arrastra para recortar"></canvas>
+        <figcaption>Original · arrastra para recortar</figcaption>
+      </figure>
+      <figure>
+        <canvas id="pp-resultado" aria-label="Resultado tras el tratamiento"></canvas>
+        <figcaption>Resultado</figcaption>
+      </figure>
+    </div>
+    <div class="preparar-controles">
+      <div class="fila">
+        <button type="button" id="pp-girar" class="sec">Girar 90°</button>
+        <button type="button" id="pp-todo" class="sec">Sin recorte</button>
+        <button type="button" id="pp-auto" class="sec" title="Calcula el nivel del trazo para esta imagen">Nivel automático</button>
+      </div>
+      <label class="check"><input type="checkbox" id="pp-igualar" checked> Igualar iluminación (quita sombras y el tono del papel)</label>
+      <label class="check"><input type="checkbox" id="pp-bn" checked> Blanco y negro puro</label>
+      <label for="pp-nivel">Nivel del trazo <output id="o-pp-nivel"></output>
+        <input id="pp-nivel" type="range" min="0" max="255" step="1" value="200">
+      </label>
+      <p class="ayuda escala"><span>solo lo más oscuro</span><span>también lo más suave</span></p>
+      <label for="pp-contraste" id="pp-etiqueta-contraste">Contraste <output id="o-pp-contraste"></output>
+        <input id="pp-contraste" type="range" min="0" max="1" step="0.05" value="0.5">
+      </label>
+    </div>
+    <div class="fila acciones-proyecto">
+      <button type="button" id="pp-aplicar" class="principal">Usar en el lienzo</button>
+      <button type="button" id="pp-original-tal-cual" class="sec">Usar sin tratar</button>
+      <button type="button" id="pp-cancelar" class="sec">Cancelar</button>
+    </div>
+  </dialog>
+  <script src="app.js"></script>
+</body>
+</html>

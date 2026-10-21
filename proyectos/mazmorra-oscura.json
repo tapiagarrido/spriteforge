@@ -1,0 +1,9 @@
+{
+  "nombre": "Mazmorra oscura",
+  "preset": "criaturas-64",
+  "ambientacion": "dark gothic dungeon, grim and eerie mood, muted desaturated colors, deep shadows",
+  "negativo": "bright colors, cheerful, cute, pastel, neon, happy, saturated",
+  "parecido_boceto": 0.5,
+  "notas": "Ejemplo: juego de mazmorras sombrío. Todos los personajes comparten esta atmósfera y la paleta del preset.",
+  "tipos": []
+}

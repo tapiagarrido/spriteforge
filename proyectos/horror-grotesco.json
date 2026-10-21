@@ -1,0 +1,9 @@
+{
+  "nombre": "Horror grotesco",
+  "preset": "criaturas-64",
+  "ambientacion": "grotesque horror creature, menacing and intimidating, eldritch abomination, unsettling anatomy, sickly muted colors, rim light, high contrast silhouette",
+  "negativo": "cute, chibi, friendly, smiling, cartoonish, kawaii, pastel, bright cheerful colors, toy, mascot",
+  "parecido_boceto": 0.4,
+  "notas": "Monstruos grotescos e intimidantes a 64x64. En la descripción, pon solo lo propio de cada monstruo (qué es + rasgo perturbador + textura + un acento de color).",
+  "tipos": []
+}

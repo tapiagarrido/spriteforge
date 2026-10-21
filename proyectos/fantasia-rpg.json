@@ -1,0 +1,9 @@
+{
+  "nombre": "Fantasía RPG",
+  "preset": "aventura-16",
+  "ambientacion": "classic fantasy adventure rpg, bright friendly colors, cozy village and dungeon mood",
+  "negativo": "gore, horror, realistic, photo, 3d render",
+  "parecido_boceto": 0.5,
+  "notas": "Ejemplo genérico: un RPG de aventuras 16×16 con el estilo del pack Tiny Dungeon (Kenney, CC0). Sirve de plantilla para tu propio proyecto.",
+  "tipos": []
+}

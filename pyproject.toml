@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forja-sprites"
+version = "0.38.1"
+description = "Convierte bocetos en sprites pixel art para juegos: IA local, servidor propio o Gemini, con presets de estilo."
+authors = [{ name = "Forja de Sprites contributors" }]
+keywords = ["pixel-art", "sprites", "gamedev", "stable-diffusion", "controlnet", "tiled"]
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+dependencies = [
+    "numpy>=1.26",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+# PyTorch se instala aparte, desde el índice de ROCm o CUDA (ver docs/gpu-amd.md).
+ia = [
+    "diffusers>=0.32",
+    "transformers>=4.45",
+    "accelerate>=1.0",
+    "peft>=0.13",
+    "safetensors>=0.4",
+    "huggingface_hub>=0.25",
+    "sentencepiece>=0.2",
+    # Segmentador BiRefNet (torchvision se instala desde el mismo índice que torch)
+    "timm>=1.0",
+    "kornia>=0.7",
+    "einops>=0.8",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+forja-preset = "motor.presets:main"
+forja-pixelizar = "motor.pixelizar:main"
+forja-boceto = "motor.boceto:main"
+forja-modelos = "motor.modelos:main"
+forja-proyectos = "motor.proyectos:main"
+forja-generar = "motor.forja:main"
+forja-servidor = "motor.servidor:main"
+forja-animar = "motor.animar:main"
+forja-mapas = "motor.mapas:main"
+forja-mapa-grande = "motor.mapa_grande:main"
+
+[tool.setuptools]
+packages = ["motor"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]

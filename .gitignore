@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+
+# Packs de referencia descargados (se obtienen a mano, ver docs/presets.md)
+assets/referencias/
+
+# Modelos de IA (pesan GB; se descargan aparte)
+modelos/
+*.safetensors
+*.ckpt
+
+# Salidas de pruebas manuales
+salidas/
+*_sprite.png
+*_sprite_x*.png
+
+# Sistema / editores
+.DS_Store
+.idea/
+.vscode/
+
+# Tauri
+app/src-tauri/target/
+app/src-tauri/gen/
+
+# Secretos y configuración local: NUNCA al repositorio
+.env
+.env.*
+config.json
+*.pem
+*.key
+.claude/
+
+# Material propio de cada usuario
+proyectos/*
+!proyectos/fantasia-rpg.json
+!proyectos/mazmorra-oscura.json
+!proyectos/aventura-clasica.json
+!proyectos/horror-grotesco.json
+
+# Superficies generadas por el mapa grande
+assets/

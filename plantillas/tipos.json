@@ -1,0 +1,44 @@
+[
+  {
+    "id": "monstruo",
+    "nombre": "Monstruo",
+    "prompt": "una sola criatura monstruosa, cuerpo completo, vista de tres cuartos, amenazante",
+    "negativo": ""
+  },
+  {
+    "id": "jefe",
+    "nombre": "Jefe",
+    "prompt": "jefe final enorme e imponente, una sola criatura, cuerpo completo, vista de tres cuartos",
+    "negativo": "pequeño, adorable"
+  },
+  {
+    "id": "heroe",
+    "nombre": "Héroe / humano",
+    "prompt": "personaje humano aventurero, cuerpo completo, postura de combate, vista de tres cuartos",
+    "negativo": "monstruo"
+  },
+  {
+    "id": "npc",
+    "nombre": "NPC (aldeano)",
+    "prompt": "aldeano pacífico, personaje no jugable, cuerpo completo, de pie, vista frontal",
+    "negativo": "arma, postura de combate, monstruo"
+  },
+  {
+    "id": "animal",
+    "nombre": "Animal",
+    "prompt": "un solo animal, cuerpo completo, vista lateral",
+    "negativo": "humano, ropa"
+  },
+  {
+    "id": "arbol",
+    "nombre": "Árbol / planta",
+    "prompt": "un solo árbol o planta completa, sin personajes",
+    "negativo": "personaje, criatura, cara, ojos"
+  },
+  {
+    "id": "objeto",
+    "nombre": "Objeto",
+    "prompt": "un solo objeto, icono de inventario, centrado, sin personajes",
+    "negativo": "personaje, criatura, manos"
+  }
+]

@@ -1,0 +1,236 @@
+{
+  "nombre": "Aventura 16",
+  "fuente": {
+    "pack": "Tiny Dungeon 1.0 (Kenney)",
+    "url": "https://kenney.nl/assets/tiny-dungeon",
+    "licencia": "CC0 (crédito opcional)"
+  },
+  "ejemplos": [
+    "ejemplo1_mago.png",
+    "ejemplo2_caballero.png",
+    "ejemplo3_aldeana.png",
+    "ejemplo4_ciclope.png",
+    "ejemplo5_aventurero.png"
+  ],
+  "sprite": {
+    "ancho": 16,
+    "alto": 16,
+    "alto_figura": 14,
+    "fondo": "transparente",
+    "anclaje": "abajo-centro"
+  },
+  "contorno": {
+    "tiene": true,
+    "grosor": 1,
+    "color": "#3f2631"
+  },
+  "colores_por_sprite": {
+    "min": 7,
+    "max": 9,
+    "objetivo": 8
+  },
+  "niveles_sombreado": 3,
+  "paleta": [
+    "#25956a",
+    "#262b44",
+    "#3f2631",
+    "#43e1b3",
+    "#52607c",
+    "#763b36",
+    "#8b9bb4",
+    "#9b4ca3",
+    "#aab7cc",
+    "#bd6c4a",
+    "#c0cbdc",
+    "#d176d0",
+    "#e19a65",
+    "#eaa56c",
+    "#f7c282",
+    "#ffffff"
+  ],
+  "paleta_ejemplos": [
+    "#25956a",
+    "#262b44",
+    "#3f2631",
+    "#43e1b3",
+    "#52607c",
+    "#763b36",
+    "#8b9bb4",
+    "#9b4ca3",
+    "#aab7cc",
+    "#bd6c4a",
+    "#c0cbdc",
+    "#d176d0",
+    "#e19a65",
+    "#eaa56c",
+    "#f7c282",
+    "#ffffff"
+  ],
+  "fondo_generacion": "#ffffff",
+  "generacion": {
+    "prompt_base": "pixel art, tiny 16-bit dungeon rpg sprite, chibi, super deformed, huge head, very short body, very simple, minimal detail, flat colors, thick dark outline, full body, front view",
+    "prompt_negativo": "gray background, dark background, colored background, gradient background, vignette, frame, border, card, panel, texture, pattern, shadow, ground, floor, scenery, background objects, plants, tree, rock, building, arch, detailed, realistic, soft shading, blurry, text, watermark, multiple characters",
+    "fuerza_estilo": 0.3,
+    "parecido_boceto": 0.5,
+    "fuerza_pixel_art": 0.8,
+    "resolucion_generacion": 768
+  },
+  "detalle_ejemplos": [
+    {
+      "archivo": "ejemplo1_mago.png",
+      "lienzo": [
+        16,
+        16
+      ],
+      "caja": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "escala_pixel_origen": 1,
+      "colores": 9,
+      "paleta": [
+        "#262b44",
+        "#3f2631",
+        "#8b9bb4",
+        "#9b4ca3",
+        "#aab7cc",
+        "#bd6c4a",
+        "#c0cbdc",
+        "#d176d0",
+        "#f7c282"
+      ],
+      "contorno": {
+        "tiene": false,
+        "grosor": 1,
+        "color": "#3f2631"
+      },
+      "niveles_sombreado": 3
+    },
+    {
+      "archivo": "ejemplo2_caballero.png",
+      "lienzo": [
+        16,
+        16
+      ],
+      "caja": [
+        0,
+        1,
+        16,
+        16
+      ],
+      "escala_pixel_origen": 1,
+      "colores": 8,
+      "paleta": [
+        "#262b44",
+        "#3f2631",
+        "#52607c",
+        "#8b9bb4",
+        "#bd6c4a",
+        "#c0cbdc",
+        "#e19a65",
+        "#f7c282"
+      ],
+      "contorno": {
+        "tiene": false,
+        "grosor": 1,
+        "color": "#3f2631"
+      },
+      "niveles_sombreado": 2
+    },
+    {
+      "archivo": "ejemplo3_aldeana.png",
+      "lienzo": [
+        16,
+        16
+      ],
+      "caja": [
+        0,
+        1,
+        16,
+        16
+      ],
+      "escala_pixel_origen": 1,
+      "colores": 9,
+      "paleta": [
+        "#262b44",
+        "#3f2631",
+        "#763b36",
+        "#9b4ca3",
+        "#bd6c4a",
+        "#d176d0",
+        "#e19a65",
+        "#eaa56c",
+        "#f7c282"
+      ],
+      "contorno": {
+        "tiene": true,
+        "grosor": 2,
+        "color": "#3f2631"
+      },
+      "niveles_sombreado": 4
+    },
+    {
+      "archivo": "ejemplo4_ciclope.png",
+      "lienzo": [
+        16,
+        16
+      ],
+      "caja": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "escala_pixel_origen": 1,
+      "colores": 7,
+      "paleta": [
+        "#262b44",
+        "#3f2631",
+        "#763b36",
+        "#bd6c4a",
+        "#e19a65",
+        "#f7c282",
+        "#ffffff"
+      ],
+      "contorno": {
+        "tiene": true,
+        "grosor": 2,
+        "color": "#3f2631"
+      },
+      "niveles_sombreado": 3
+    },
+    {
+      "archivo": "ejemplo5_aventurero.png",
+      "lienzo": [
+        16,
+        16
+      ],
+      "caja": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "escala_pixel_origen": 1,
+      "colores": 8,
+      "paleta": [
+        "#25956a",
+        "#262b44",
+        "#3f2631",
+        "#43e1b3",
+        "#763b36",
+        "#bd6c4a",
+        "#e19a65",
+        "#f7c282"
+      ],
+      "contorno": {
+        "tiene": false,
+        "grosor": 1,
+        "color": "#3f2631"
+      },
+      "niveles_sombreado": 2
+    }
+  ]
+}

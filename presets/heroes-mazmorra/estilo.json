@@ -1,0 +1,189 @@
+{
+  "nombre": "Héroes de mazmorra",
+  "fuente": {
+    "pack": "16x16 DungeonTileset II v1.7 (0x72)",
+    "url": "https://0x72.itch.io/dungeontileset-ii",
+    "licencia": "CC0 (crédito opcional)"
+  },
+  "ejemplos": [
+    "ejemplo1_caballero.png",
+    "ejemplo2_elfa.png",
+    "ejemplo3_mago.png"
+  ],
+  "sprite": {
+    "ancho": 16,
+    "alto": 28,
+    "alto_figura": 20,
+    "fondo": "transparente",
+    "anclaje": "abajo-centro"
+  },
+  "contorno": {
+    "tiene": true,
+    "grosor": 1,
+    "color": "#222222"
+  },
+  "colores_por_sprite": {
+    "min": 6,
+    "max": 8,
+    "objetivo": 7
+  },
+  "niveles_sombreado": 2,
+  "paleta": [
+    "#111111",
+    "#222222",
+    "#333333",
+    "#62232f",
+    "#314152",
+    "#483b3a",
+    "#5f2d56",
+    "#9f294e",
+    "#8f4029",
+    "#3d734f",
+    "#8a503e",
+    "#5956bd",
+    "#775c55",
+    "#417089",
+    "#da4e38",
+    "#d44e52",
+    "#c56025",
+    "#dc4a7b",
+    "#4ba747",
+    "#7b8994",
+    "#49a790",
+    "#5698cc",
+    "#e46e33",
+    "#b58057",
+    "#aa8d7a",
+    "#c38d70",
+    "#ee8a2e",
+    "#ee8e2e",
+    "#f78697",
+    "#d8a57d",
+    "#97da3f",
+    "#72d6ce",
+    "#e2b694",
+    "#d3bfa9",
+    "#facb3e",
+    "#fccba3",
+    "#cae6f5",
+    "#fdf7ed"
+  ],
+  "paleta_ejemplos": [
+    "#222222",
+    "#3d734f",
+    "#417089",
+    "#4ba747",
+    "#5698cc",
+    "#5956bd",
+    "#72d6ce",
+    "#8a503e",
+    "#b58057",
+    "#d3bfa9",
+    "#da4e38",
+    "#ee8e2e",
+    "#facb3e",
+    "#fccba3",
+    "#fdf7ed"
+  ],
+  "fondo_generacion": "#ffffff",
+  "generacion": {
+    "prompt_base": "pixel art, tiny 16-bit dungeon rpg sprite, chibi, super deformed, huge head, very short body, very simple, minimal detail, flat colors, thick dark outline, full body, side view",
+    "prompt_negativo": "gray background, dark background, colored background, gradient background, vignette, frame, border, card, panel, texture, pattern, shadow, ground, floor, scenery, background objects, plants, tree, rock, building, arch, detailed, realistic, soft shading, blurry, text, watermark, multiple characters",
+    "fuerza_estilo": 0.3,
+    "resolucion_generacion": 768,
+    "fuerza_pixel_art": 0.8,
+    "parecido_boceto": 0.5
+  },
+  "detalle_ejemplos": [
+    {
+      "archivo": "ejemplo1_caballero.png",
+      "lienzo": [
+        16,
+        28
+      ],
+      "caja": [
+        0,
+        8,
+        15,
+        28
+      ],
+      "escala_pixel_origen": 1,
+      "colores": 6,
+      "paleta": [
+        "#222222",
+        "#417089",
+        "#72d6ce",
+        "#da4e38",
+        "#ee8e2e",
+        "#fdf7ed"
+      ],
+      "contorno": {
+        "tiene": true,
+        "grosor": 1,
+        "color": "#222222"
+      },
+      "niveles_sombreado": 1
+    },
+    {
+      "archivo": "ejemplo2_elfa.png",
+      "lienzo": [
+        16,
+        28
+      ],
+      "caja": [
+        0,
+        12,
+        15,
+        28
+      ],
+      "escala_pixel_origen": 1,
+      "colores": 8,
+      "paleta": [
+        "#222222",
+        "#3d734f",
+        "#4ba747",
+        "#5698cc",
+        "#da4e38",
+        "#ee8e2e",
+        "#facb3e",
+        "#fccba3"
+      ],
+      "contorno": {
+        "tiene": true,
+        "grosor": 1,
+        "color": "#222222"
+      },
+      "niveles_sombreado": 2
+    },
+    {
+      "archivo": "ejemplo3_mago.png",
+      "lienzo": [
+        16,
+        28
+      ],
+      "caja": [
+        2,
+        9,
+        16,
+        28
+      ],
+      "escala_pixel_origen": 1,
+      "colores": 7,
+      "paleta": [
+        "#222222",
+        "#5698cc",
+        "#5956bd",
+        "#8a503e",
+        "#b58057",
+        "#d3bfa9",
+        "#fdf7ed"
+      ],
+      "contorno": {
+        "tiene": true,
+        "grosor": 1,
+        "color": "#222222"
+      },
+      "niveles_sombreado": 2
+    }
+  ]
+}
