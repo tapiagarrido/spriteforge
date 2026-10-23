@@ -12,6 +12,22 @@ Después las animas y generas el terreno (para Tiled).
 *Por cada boceto (izquierda): 4 variantes. Arriba, la imagen de la IA; abajo, el sprite
 final ya con la paleta del estilo.*
 
+## Galería
+
+Criaturas generadas con la propia herramienta (preset `criaturas-64`, proyecto
+`horror-grotesco`) a partir de bocetos y descripciones en español; cada sprite sale a
+64×64 con la paleta del estilo, aquí ampliados ×4.
+
+![Criaturas generadas con la herramienta](docs/img/galeria_criaturas.png)
+
+Y un rebaño con sus animales y el pastor, sprites de un juego real hecho con la herramienta:
+
+![Rebaño, coyote, perro y pastor](docs/img/galeria_animales.png)
+
+Y parte de su mapa, con casillas individuales generadas con la herramienta:
+
+![Tablero de pradera con cabras, pastor, árboles, agua y fogata](docs/img/tablero_pradera.png)
+
 ## Por qué es distinta
 
 - **El estilo lo pone el código, no la IA.** La IA solo dibuja la imagen grande; el

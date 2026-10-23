@@ -11,6 +11,22 @@ terrain for Tiled.
 
 ![Sketches, AI images and final 64×64 sprites](docs/img/resultados_64px.png)
 
+## Gallery
+
+Creatures made with the tool itself (`criaturas-64` preset, `horror-grotesco` project)
+from sketches and Spanish descriptions; each sprite comes out at 64×64 in the style's
+palette, shown here at ×4.
+
+![Creatures generated with the tool](docs/img/galeria_criaturas.png)
+
+And a flock with its animals and the shepherd, sprites from a real game made with the tool:
+
+![Flock, coyote, dog and shepherd](docs/img/galeria_animales.png)
+
+And part of its map, built from individual tiles generated with the tool:
+
+![Meadow board with goats, shepherd, trees, water and a campfire](docs/img/tablero_pradera.png)
+
 ## Why it's different
 
 - **The style is enforced by code, not by the AI.** The AI only paints the large
